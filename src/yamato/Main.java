@@ -28,8 +28,6 @@ public class Main {
 			second = setPlayerTalk(BLACK);
 		}
 		
-		System.out.println(new PlayerInfo(first, second).toString());
-		
 		//ゲーム開始
 		Othello othello = new Othello(new PlayerInfo(first, second));
 		othello.play();
