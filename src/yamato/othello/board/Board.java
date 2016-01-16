@@ -3,20 +3,27 @@ package yamato.othello.board;
 import yamato.util.Vector;
 
 import java.util.List;
+
 import java.util.ArrayList;
 
-import static yamato.othello.board.StoneColor.WHITE;
+import static yamato.othello.board.Stone.*;
 import static yamato.othello.OthelloConstant.SIZE_X;
 import static yamato.othello.OthelloConstant.SIZE_Y;
-import static yamato.othello.board.StoneColor.BLACK;
 
 public class Board implements Cloneable{
+	//ボード
 	private Stone[][] stones = new Stone[SIZE_X][SIZE_Y];
+	
 	public Board(){
-		this.stones[SIZE_X/2-1][SIZE_Y/2-1] = new Stone(WHITE);
-		this.stones[SIZE_X/2][SIZE_Y/2] = new Stone(WHITE);
-		this.stones[SIZE_X/2][SIZE_Y/2-1] = new Stone(BLACK);
-		this.stones[SIZE_X/2-1][SIZE_Y/2] = new Stone(BLACK);
+		for(int i=0;i<SIZE_X;i++){
+			for(int j=0;j<SIZE_Y;j++){
+				this.stones[i][j] = Stone.EMPTY;
+			}
+		}
+		this.stones[SIZE_X/2-1][SIZE_Y/2-1] = Stone.WHITE;
+		this.stones[SIZE_X/2][SIZE_Y/2] = Stone.WHITE;
+		this.stones[SIZE_X/2][SIZE_Y/2-1] = Stone.BLACK;
+		this.stones[SIZE_X/2-1][SIZE_Y/2] = Stone.BLACK;
 	}
 	public Board(Stone[][] sotnes){
 		for(int i=0;i < SIZE_X;i++){
@@ -28,9 +35,9 @@ public class Board implements Cloneable{
 	
 	
 	//石を置く、ひっくり返す
-	public int PutStone(StoneColor sc,Vector p){
+	public int PutStone(Stone sc,Vector p){
 		int flag=0;
-		if(this.getStones(p.x, p.y) != null)
+		if(this.getStone(p.x, p.y) != Stone.EMPTY)
 			return 0;
 		for(int x =-1;x <= 1;x++){
 			for(int y=-1;y <= 1; y++){
@@ -38,40 +45,40 @@ public class Board implements Cloneable{
 			}
 		}
 		if (flag >= 1)
-			this.setStones(p.x, p.y, new Stone(sc));
+			this.setStone(p.x, p.y, sc);
 		return flag;
 	}
 	//１方向ひっくり返す
-	private int PutStoneLine(StoneColor sc,Vector p,Vector dir){
+	private int PutStoneLine(Stone sc,Vector p,Vector dir){
 		int flag = 0;
 		Vector i = new Vector(p);
 		for(i = Vector.sum(i,dir);
 				0 <= i.x && i.x < SIZE_X &&
 				0 <= i.y && i.y < SIZE_Y;
 				i = Vector.sum(i,dir)){
-			if(this.stones[i.x][i.y] == null)
+			if(this.stones[i.x][i.y] == Stone.EMPTY)
 				break;
-			else if(this.stones[i.x][i.y].getStoneColor() == sc){
+			else if(this.stones[i.x][i.y] == sc){
 				//ひっくり返す
 				i = new Vector(p);
 				for(i = Vector.sum(i,dir);
-						!(this.stones[i.x][i.y].getStoneColor() == sc);
+						!(this.stones[i.x][i.y] == sc);
 						i = Vector.sum(i,dir)){
-					this.stones[i.x][i.y].reverse();
+					this.stones[i.x][i.y] = Stone.reverse(this.stones[i.x][i.y]);
 				}
 				return flag;
 			}
-			else if(!(this.stones[i.x][i.y].getStoneColor() == sc))
+			else if(!(this.stones[i.x][i.y] == sc))
 				flag++;
 		}
 		return 0;
 	}
 	
 	//ひっくり返せるかチェック。ひっくり返せる数を返す
-	public int PutStoneCheck(StoneColor sc,Vector p){
+	public int PutStoneCheck(Stone sc,Vector p){
 		int flag=0;//ひっくり返せる数
 		//置く場所にすでに石があるか
-		if(this.getStones(p.x, p.y) != null)
+		if(this.getStone(p.x, p.y) != Stone.EMPTY)
 			return 0;
 		//各方向に対して石をひっくり返せるかチェック
 		for(int x =-1;x <= 1;x++){
@@ -82,24 +89,24 @@ public class Board implements Cloneable{
 		return flag;
 	}
 	//各方向ごとにひっくり返せるかチェック
-	private int PutStoneCheckLine(StoneColor sc,Vector p,Vector dir){
+	private int PutStoneCheckLine(Stone sc,Vector p,Vector dir){
 		int flag = 0;
 		Vector i = new Vector(p);
 		for(i = Vector.sum(i,dir);
 				0 <= i.x && i.x < SIZE_X &&
 				0 <= i.y && i.y < SIZE_Y;
 				i = Vector.sum(i,dir)){
-			if(this.stones[i.x][i.y] == null)
+			if(this.stones[i.x][i.y] == Stone.EMPTY)
 				break;
-			if(this.stones[i.x][i.y].getStoneColor() == sc)
+			if(this.stones[i.x][i.y] == sc)
 				return flag;
-			if(!(this.stones[i.x][i.y].getStoneColor() == sc))
+			if(!(this.stones[i.x][i.y] == sc))
 				flag++;
 		}
 		return 0;
 	}
 	//石を置ける場所をリストで返す
-	public List<Vector> PutStoneCanPoint(StoneColor sc){
+	public List<Vector> PutStoneCanPoint(Stone sc){
 		List<Vector> points = new ArrayList<Vector>();
 		for(int x=0;x<SIZE_X;x++){
 			for(int y=0;y<SIZE_Y;y++){
@@ -111,7 +118,7 @@ public class Board implements Cloneable{
 		return points;
 	}
 	//石を置ける場所の数を返す
-	public int PutStoneAmountCount(StoneColor sc){
+	public int PutStoneAmountCount(Stone sc){
 		int cnt = 0;
 		for(int i=0;i < SIZE_X;i++){
 			for(int j=0;j<SIZE_Y;j++){
@@ -122,7 +129,7 @@ public class Board implements Cloneable{
 		return cnt;
 	}
 	
-	public boolean isPass(StoneColor sc){
+	public boolean isPass(Stone sc){
 		return PutStoneAmountCount(sc) == 0;
 	}
 	
@@ -136,19 +143,18 @@ public class Board implements Cloneable{
 		int cnt = 0;
 		for(int i=0;i<SIZE_X;i++){
 			for(int j=0;j<SIZE_Y;j++){
-				if(this.stones[i][j]!=null)
+				if(this.stones[i][j]!=Stone.EMPTY)
 					cnt++;
 			}
 		}
 		return cnt;
 	}
 	//色ごとに石の数カウント
-	public int countStoneColor(StoneColor sc){
+	public int countStoneColor(Stone sc){
 		int cnt = 0;
 		for(int i=0;i<SIZE_X;i++){
 			for(int j=0;j<SIZE_Y;j++){
-				if(this.stones[i][j]!=null &&
-						this.stones[i][j].getStoneColor() == sc)
+				if(this.stones[i][j] == sc)
 					cnt++;
 			}
 		}
@@ -156,13 +162,13 @@ public class Board implements Cloneable{
 	}
 	//空白スペースのカウント
 	public int countEmpty(){
-		return SIZE_X * SIZE_Y - this.countStoneAll();
+		return this.countStoneColor(EMPTY);
 	}
 
-	public Stone getStones(int x,int y) {return stones[x][y];}
-	public Stone getStones(Vector v) {return this.getStones(v.x, v.y);}
+	public Stone getStone(int x,int y) {return stones[x][y];}
+	public Stone getStone(Vector v) {return this.getStone(v.x, v.y);}
 
-	public void setStones(int x, int y, Stone stone) {this.stones[x][y] = stone;}
+	public void setStone(int x, int y, Stone stone) {this.stones[x][y] = stone;}
 	
 	//深いコピーを作る
 	@Override
@@ -176,10 +182,7 @@ public class Board implements Cloneable{
 	public void copyBy(Board b){
 		for(int i=0;i<SIZE_X;i++){
 			for(int j=0;j<SIZE_Y;j++){
-				if (b.getStones(i, j) instanceof Stone)
-					this.setStones(i, j, new Stone(b.getStones(i, j).getStoneColor()));
-				else
-					this.setStones(i, j, null);
+				this.setStone(i, j, b.getStone(i, j));
 			}
 		}
 	}
@@ -196,7 +199,7 @@ public class Board implements Cloneable{
 	        str.append(line());
 	        str.append(" " + (char)(i+'1') + " |");
 	        for(int j=0;j<SIZE_X;j++){
-	        	str.append(stoneToString(this.getStones(j, i)));
+	        	str.append(this.getStone(j, i).toString());
 	            str.append("|");
 	        }
 	        str.append("\n");
@@ -204,12 +207,6 @@ public class Board implements Cloneable{
 	    str.append(line());
 	    
 	    return str.toString();
-	}
-
-	// 石を表示○●
-	public String stoneToString(Stone stone) {
-		return stone == null ? "   " :
-			stone.getStoneColor() == StoneColor.WHITE ? " ○ " : " ● ";
 	}
 	
 	//オセロ盤の横ラインを表示

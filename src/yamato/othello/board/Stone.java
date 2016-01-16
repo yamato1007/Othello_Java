@@ -1,24 +1,21 @@
 package yamato.othello.board;
 
-import static yamato.othello.board.StoneColor.WHITE;
-import static yamato.othello.board.StoneColor.BLACK;
 
-public class Stone {
-	private StoneColor stone_c;
+public enum Stone {
+	WHITE,
+	BLACK,
+	EMPTY;
 	
-	public Stone(StoneColor sc){
-		this.stone_c = sc;
+	@Override
+	public String toString(){
+		if(this == Stone.WHITE) return " ● ";
+		else if(this == Stone.BLACK) return " ○ ";
+		else return "   ";
 	}
-
 	
-	public StoneColor getStoneColor(){return this.stone_c;}
-	public void setStoneColor(StoneColor sc){this.stone_c = sc;}
-	
-	public StoneColor reverse(){
-		this.stone_c = this.getReverseStoneColor();
-		return this.stone_c;
-	}
-	public StoneColor getReverseStoneColor(){
-		return this.stone_c == WHITE ? BLACK : WHITE;
+	public static Stone reverse(Stone sc){
+		if(sc == Stone.WHITE) return Stone.BLACK;
+		else if(sc == Stone.BLACK) return Stone.WHITE;
+		else return Stone.EMPTY;
 	}
 }

@@ -3,7 +3,7 @@ package yamato.othello.ai;
 import java.util.List;
 
 import yamato.othello.board.Board;
-import yamato.othello.board.StoneColor;
+import yamato.othello.board.Stone;
 import yamato.util.Vector;
 
 public class EasiestAI extends AIBase{
@@ -13,7 +13,7 @@ public class EasiestAI extends AIBase{
 	}
 
 	@Override
-	public AIBase calc(Board board,StoneColor stoneColor) {
+	public AIBase calc(Board board,Stone stoneColor) {
 		List<Vector> points = board.PutStoneCanPoint(stoneColor);
 		if(points.isEmpty())
 			this.bestMove = null;

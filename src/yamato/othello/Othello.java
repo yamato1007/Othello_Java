@@ -5,8 +5,8 @@ import yamato.othello.info.GameInfo;
 import yamato.othello.info.PlayerInfo;
 import yamato.util.*;
 
-import static yamato.othello.board.StoneColor.WHITE;
-import static yamato.othello.board.StoneColor.BLACK;
+import static yamato.othello.board.Stone.WHITE;
+import static yamato.othello.board.Stone.BLACK;
 
 
 
@@ -14,7 +14,7 @@ public class Othello {
 	private GameInfo gameInfo;
 	
 	private Board board;
-	private StoneColor nowColor;
+	private Stone nowColor;
 	
 	public Othello(PlayerInfo playerInfo){
 		this.gameInfo = new GameInfo(playerInfo);

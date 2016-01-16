@@ -5,12 +5,12 @@ import yamato.util.Vector;
 
 public abstract class PlayerBase {
 	protected String name;
-	protected StoneColor stoneColor;
+	protected Stone stoneColor;
 	
-	public PlayerBase(StoneColor sc){
+	public PlayerBase(Stone sc){
 		this("Non Name", sc);
 	}
-	public PlayerBase(String name,StoneColor sc){
+	public PlayerBase(String name,Stone sc){
 		this.name = name;
 		this.stoneColor = sc;	
 	}

@@ -1,15 +1,15 @@
 package yamato.othello.info;
 
 import yamato.othello.board.Board;
-import yamato.othello.board.StoneColor;
+import yamato.othello.board.Stone;
 import yamato.util.Vector;
 
 public class OneMoveInfo {
 	private Vector nextMove;
 	private Board board;
-	private StoneColor nextColor;
+	private Stone nextColor;
 	
-	public OneMoveInfo(Vector nextMove,Board board,StoneColor nextColor){
+	public OneMoveInfo(Vector nextMove,Board board,Stone nextColor){
 		this.nextMove = nextMove;
 		this.board = board;
 		this.nextColor = nextColor;
@@ -21,7 +21,7 @@ public class OneMoveInfo {
 	public Board getBoard() {
 		return board;
 	}
-	public StoneColor getNextColor() {
+	public Stone getNextColor() {
 		return nextColor;
 	}
 	

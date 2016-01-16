@@ -1,7 +1,7 @@
 package yamato.othello.info;
 
 
-import yamato.othello.board.StoneColor;
+import yamato.othello.board.Stone;
 import yamato.othello.player.PlayerBase;
 
 
@@ -26,8 +26,8 @@ public class PlayerInfo {
 	public PlayerBase getSecondPlayer() {
 		return secondPlayer;
 	}
-	public PlayerBase getPlayer(StoneColor sc) {
-		return sc == StoneColor.WHITE ? firstPlayer : secondPlayer;
+	public PlayerBase getPlayer(Stone sc) {
+		return sc == Stone.WHITE ? firstPlayer : secondPlayer;
 	}
 	
 	@Override

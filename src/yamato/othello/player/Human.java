@@ -1,7 +1,7 @@
 package yamato.othello.player;
 
 import yamato.othello.board.Board;
-import yamato.othello.board.StoneColor;
+import yamato.othello.board.Stone;
 import yamato.util.MyInput;
 import yamato.util.Vector;
 
@@ -16,11 +16,12 @@ import yamato.othello.ai.MinMaxAI;
  * IO処理を外部委託することは出来ない気がする
  */
 public class Human extends PlayerBase {
+	public static final int hintLevel = 5;
 	
-	public Human(StoneColor sc){
+	public Human(Stone sc){
 		this("Hum",sc);
 	}
-	public Human(String name, StoneColor sc) {
+	public Human(String name, Stone sc) {
 		super(name, sc);
 	}
 	
@@ -39,7 +40,7 @@ public class Human extends PlayerBase {
 				System.out.print("手を選択([a-h][1-8])：");
 				String str = MyInput.getStr();
 				if(str.equals("hint")){
-					Vector hint = new MinMaxAI(5).calc(board,this.stoneColor).getBestMove();
+					Vector hint = new MinMaxAI(hintLevel).calc(board,this.stoneColor).getBestMove();
 					System.out.println((char)('a'+hint.x)+""+(hint.y+1)+ "がおすすめですよ！");
 				}
 				if(str.length() < 2) continue;

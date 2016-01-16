@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import yamato.othello.board.Board;
-import yamato.othello.board.StoneColor;
+import yamato.othello.board.Stone;
 import yamato.othello.player.PlayerBase;
 import yamato.util.Vector;
 
@@ -33,7 +33,7 @@ public class GameInfo extends PlayerInfo{
 	 * 一手分情報を追加
 	 * @param move
 	 */
-	public void addMove(Vector move,Board board,StoneColor stoneColor) {
+	public void addMove(Vector move,Board board,Stone stoneColor) {
 		OneMoveInfo moveInfo = new OneMoveInfo(move, board.clone(), stoneColor);
 		this.moves.add(moveInfo);
 	}

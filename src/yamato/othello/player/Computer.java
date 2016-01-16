@@ -8,10 +8,10 @@ import yamato.util.Vector;
 public class Computer extends PlayerBase {
 	private AIBase AIAlgorithm;
 	
-	public Computer(StoneColor sc,AIBase aialgorithm){
+	public Computer(Stone sc,AIBase aialgorithm){
 		this("COM", sc,aialgorithm);
 	}
-	public Computer(String name, StoneColor sc,AIBase aialgorithm) {
+	public Computer(String name, Stone sc,AIBase aialgorithm) {
 		super(name, sc);
 		this.AIAlgorithm = aialgorithm;
 	}

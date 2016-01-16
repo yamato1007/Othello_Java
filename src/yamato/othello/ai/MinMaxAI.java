@@ -1,13 +1,13 @@
 package yamato.othello.ai;
 
-import static yamato.othello.board.StoneColor.BLACK;
-import static yamato.othello.board.StoneColor.WHITE;
+import static yamato.othello.board.Stone.BLACK;
+import static yamato.othello.board.Stone.WHITE;
 import static yamato.othello.OthelloConstant.*;
 
 import java.util.List;
 
 import yamato.othello.board.Board;
-import yamato.othello.board.StoneColor;
+import yamato.othello.board.Stone;
 import yamato.util.Vector;
 
 public class MinMaxAI extends AIBase{
@@ -34,7 +34,7 @@ public class MinMaxAI extends AIBase{
 	}
 
 	@Override
-	public AIBase calc(Board board, StoneColor stoneColor) {
+	public AIBase calc(Board board, Stone stoneColor) {
 		Board boardClone = board.clone();
 		if(level-1 >= board.countEmpty())
 			this.ratingBoard = this.createRatingBoardEquarity();
@@ -43,10 +43,10 @@ public class MinMaxAI extends AIBase{
 	}
 	
 	//最善手を再帰的に探索
-	private Vector calcBestMoveLoop(Board board,StoneColor sc,int readTime){
+	private Vector calcBestMoveLoop(Board board,Stone sc,int readTime){
 		Vector bestMove = null;
 		Board bestBoard = board.clone();
-		StoneColor next_sc = (sc == BLACK ? WHITE : BLACK);
+		Stone next_sc = (sc == BLACK ? WHITE : BLACK);
 		List<Vector> putPoints = board.PutStoneCanPoint(sc);
 		//パスするしかない時
 		if(putPoints.size() == 0){
@@ -81,16 +81,14 @@ public class MinMaxAI extends AIBase{
 	}
 	
 	//評価値を計算
-	private int calcRating(Board borad,StoneColor sc){
+	private int calcRating(Board borad,Stone sc){
 		int rate = 0;
 		for(int i=0;i<SIZE_Y;i++){
 	        for(int j=0;j<SIZE_X;j++){
-	        	if(borad.getStones(i, j) != null){
-	        		if(borad.getStones(i, j).getStoneColor() == sc)
-						rate += this.ratingBoard[i][j];
-	        		else if(borad.getStones(i, j).getStoneColor() != sc)
-	        			rate -= this.ratingBoard[i][j];
-	        	}
+        		if(borad.getStone(i, j) == sc)
+					rate += this.ratingBoard[i][j];
+        		else if(borad.getStone(i, j) == Stone.reverse(sc))
+        			rate -= this.ratingBoard[i][j];
 	        }
 		}
 		return rate;

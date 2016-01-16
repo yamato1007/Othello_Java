@@ -1,7 +1,7 @@
 package yamato.othello.ai;
 
 import yamato.othello.board.Board;
-import yamato.othello.board.StoneColor;
+import yamato.othello.board.Stone;
 import yamato.util.Vector;
 
 public abstract class AIBase {
@@ -11,7 +11,7 @@ public abstract class AIBase {
 		this.bestMove = null;
 	}
 	
-	public abstract AIBase calc(Board board, StoneColor stoneColor);
+	public abstract AIBase calc(Board board, Stone stoneColor);
 
 	public Vector getBestMove(){
 		return bestMove;
